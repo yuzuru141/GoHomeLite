@@ -14,6 +14,8 @@
 		FED6F3361A414858002040D9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FED6F3351A414858002040D9 /* Images.xcassets */; };
 		FED6F3391A414858002040D9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FED6F3371A414858002040D9 /* LaunchScreen.xib */; };
 		FED6F3451A414858002040D9 /* goHomeLiteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FED6F3441A414858002040D9 /* goHomeLiteTests.m */; };
+		FED6F3501A4148AC002040D9 /* YahooViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FED6F34F1A4148AC002040D9 /* YahooViewController.m */; };
+		FED6F3531A414917002040D9 /* RegViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FED6F3521A414917002040D9 /* RegViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,10 @@
 		FED6F33E1A414858002040D9 /* goHomeLiteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = goHomeLiteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FED6F3431A414858002040D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FED6F3441A414858002040D9 /* goHomeLiteTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = goHomeLiteTests.m; sourceTree = "<group>"; };
+		FED6F34E1A4148AC002040D9 /* YahooViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YahooViewController.h; sourceTree = "<group>"; };
+		FED6F34F1A4148AC002040D9 /* YahooViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YahooViewController.m; sourceTree = "<group>"; };
+		FED6F3511A414917002040D9 /* RegViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegViewController.h; sourceTree = "<group>"; };
+		FED6F3521A414917002040D9 /* RegViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,11 +87,15 @@
 		FED6F3271A414858002040D9 /* goHomeLite */ = {
 			isa = PBXGroup;
 			children = (
+				FED6F3321A414858002040D9 /* Main.storyboard */,
 				FED6F32C1A414858002040D9 /* AppDelegate.h */,
 				FED6F32D1A414858002040D9 /* AppDelegate.m */,
 				FED6F32F1A414858002040D9 /* ViewController.h */,
 				FED6F3301A414858002040D9 /* ViewController.m */,
-				FED6F3321A414858002040D9 /* Main.storyboard */,
+				FED6F34E1A4148AC002040D9 /* YahooViewController.h */,
+				FED6F34F1A4148AC002040D9 /* YahooViewController.m */,
+				FED6F3511A414917002040D9 /* RegViewController.h */,
+				FED6F3521A414917002040D9 /* RegViewController.m */,
 				FED6F3351A414858002040D9 /* Images.xcassets */,
 				FED6F3371A414858002040D9 /* LaunchScreen.xib */,
 				FED6F3281A414858002040D9 /* Supporting Files */,
@@ -222,6 +232,8 @@
 				FED6F3311A414858002040D9 /* ViewController.m in Sources */,
 				FED6F32E1A414858002040D9 /* AppDelegate.m in Sources */,
 				FED6F32B1A414858002040D9 /* main.m in Sources */,
+				FED6F3531A414917002040D9 /* RegViewController.m in Sources */,
+				FED6F3501A4148AC002040D9 /* YahooViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
