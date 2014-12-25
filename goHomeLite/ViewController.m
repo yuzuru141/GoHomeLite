@@ -24,4 +24,18 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+// 常に回転させない
+- (BOOL)shouldAutorotate
+{
+    return NO;
+}
+
+// 縦のみサポート
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
+
 @end

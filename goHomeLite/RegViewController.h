@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface RegViewController : UIViewController
+@interface RegViewController : UIViewController<CLLocationManagerDelegate,UITextFieldDelegate,UIScrollViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
+
+@property (strong, nonatomic) CLLocationManager *locationManager;
+@property NSTimer* timer;
+
+-(void)LocalNotificationStart;
+- (void)fire;
 
 @end

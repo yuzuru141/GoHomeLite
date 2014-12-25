@@ -250,9 +250,7 @@ NSString * const APIKEY = @"dj0zaiZpPUFCT0pHYU9MT0RObiZzPWNvbnN1bWVyc2VjcmV0Jng9
     NSString *lon1 = locations[0];
     NSString *lat1 = locations[1];
     double lon2 = lon1.doubleValue;
-    NSLog(@"lon=%f",lon2);
     double lat2 = lat1.doubleValue;
-    NSLog(@"lat=%f",lat2);
     
     //nsuserdefaultにデータを追加
     NSUserDefaults *placeDefault = [NSUserDefaults standardUserDefaults];
@@ -284,6 +282,8 @@ NSString * const APIKEY = @"dj0zaiZpPUFCT0pHYU9MT0RObiZzPWNvbnN1bWVyc2VjcmV0Jng9
     _locationArray = nil;
     
     [self.TableView reloadData];
+    
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 
@@ -316,22 +316,18 @@ NSString * const APIKEY = @"dj0zaiZpPUFCT0pHYU9MT0RObiZzPWNvbnN1bWVyc2VjcmV0Jng9
     
 }
 
-- (IBAction)cancelButtonTapped:(id)sender {
-    
-    [self dismissViewControllerAnimated:YES completion:NULL];
-    
+
+// 常に回転させない
+- (BOOL)shouldAutorotate
+{
+    return NO;
 }
 
-
-
-
-
-
-
-
-
-
-
+// 縦のみサポート
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 
 

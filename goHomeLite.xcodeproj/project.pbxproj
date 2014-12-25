@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FECE79421A43BC0D007D1D3F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECE79411A43BC0D007D1D3F /* CoreLocation.framework */; };
 		FED6F32B1A414858002040D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FED6F32A1A414858002040D9 /* main.m */; };
 		FED6F32E1A414858002040D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FED6F32D1A414858002040D9 /* AppDelegate.m */; };
 		FED6F3311A414858002040D9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FED6F3301A414858002040D9 /* ViewController.m */; };
@@ -29,6 +30,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FECE79411A43BC0D007D1D3F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		FED6F3251A414858002040D9 /* goHomeLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = goHomeLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FED6F3291A414858002040D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FED6F32A1A414858002040D9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -53,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FECE79421A43BC0D007D1D3F /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,6 +72,7 @@
 		FED6F31C1A414858002040D9 = {
 			isa = PBXGroup;
 			children = (
+				FECE79411A43BC0D007D1D3F /* CoreLocation.framework */,
 				FED6F3271A414858002040D9 /* goHomeLite */,
 				FED6F3411A414858002040D9 /* goHomeLiteTests */,
 				FED6F3261A414858002040D9 /* Products */,
@@ -92,10 +96,10 @@
 				FED6F32D1A414858002040D9 /* AppDelegate.m */,
 				FED6F32F1A414858002040D9 /* ViewController.h */,
 				FED6F3301A414858002040D9 /* ViewController.m */,
-				FED6F34E1A4148AC002040D9 /* YahooViewController.h */,
-				FED6F34F1A4148AC002040D9 /* YahooViewController.m */,
 				FED6F3511A414917002040D9 /* RegViewController.h */,
 				FED6F3521A414917002040D9 /* RegViewController.m */,
+				FED6F34E1A4148AC002040D9 /* YahooViewController.h */,
+				FED6F34F1A4148AC002040D9 /* YahooViewController.m */,
 				FED6F3351A414858002040D9 /* Images.xcassets */,
 				FED6F3371A414858002040D9 /* LaunchScreen.xib */,
 				FED6F3281A414858002040D9 /* Supporting Files */,
@@ -426,6 +430,7 @@
 				FED6F34A1A414858002040D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FED6F34B1A414858002040D9 /* Build configuration list for PBXNativeTarget "goHomeLiteTests" */ = {
 			isa = XCConfigurationList;
@@ -434,6 +439,7 @@
 				FED6F34D1A414858002040D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
