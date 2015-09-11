@@ -741,7 +741,7 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     
     
     //３分に一回GPSをゲットする
-    NSTimer *subTimer = [NSTimer timerWithTimeInterval:3 target:self selector:@selector(getGpsData:) userInfo:nil repeats:YES];
+    NSTimer *subTimer = [NSTimer timerWithTimeInterval:180 target:self selector:@selector(getGpsData:) userInfo:nil repeats:YES];
     //セットした時間内だけGPSを取得する
     if (selectTimeFrom <= (long)dateComp.hour){
         if((long)dateComp.hour < selectTimeTo){
