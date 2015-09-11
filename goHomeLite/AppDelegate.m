@@ -19,16 +19,16 @@
     // Override point for customization after application launch.
     
     // UIApplicationLaunchOptionsLocalNotificationKeyをキーにして、情報を取り出す
-    UILocalNotification *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
-    
-    // nilでなければ、通知の情報が格納されている
-    if(notification != nil) {
-        // ここに処理を書く
-        [self.regViewConview fire];
-        // 通知領域から消す
-        [[UIApplication sharedApplication] cancelLocalNotification:notification];
-    }
-    NSLog(@"呼ばれる");
+//    UILocalNotification *notification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
+//    
+//    // nilでなければ、通知の情報が格納されている
+//    if(notification != nil) {
+//        // ここに処理を書く
+//        [self.regViewConview fire];
+//        // 通知領域から消す
+//        [[UIApplication sharedApplication] cancelLocalNotification:notification];
+//    }
+//    NSLog(@"呼ばれる");
     return YES;
 }
 
@@ -42,13 +42,13 @@
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     
     //新しく通知をセットする
-    if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil];
-        [application registerUserNotificationSettings:settings];
-        
-        self.regViewConview = [[RegViewController alloc]init];
-        [self.regViewConview LocalNotificationStart];
-    }
+//    if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+//        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil];
+//        [application registerUserNotificationSettings:settings];
+//        
+//        self.regViewConview = [[RegViewController alloc]init];
+//        [self.regViewConview LocalNotificationStart];
+//    }
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
@@ -63,39 +63,39 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     
     //新しく通知をセットする
-    if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil];
-        [application registerUserNotificationSettings:settings];
-        
-        self.regViewConview = [[RegViewController alloc]init];
-        [self.regViewConview LocalNotificationStart];
-    }
+//    if ([application respondsToSelector:@selector(registerUserNotificationSettings:)]) {
+//        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound categories:nil];
+//        [application registerUserNotificationSettings:settings];
+//        
+//        self.regViewConview = [[RegViewController alloc]init];
+//        [self.regViewConview LocalNotificationStart];
+//    }
     
 }
 
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
-    if (application.applicationState == UIApplicationStateActive) {
-        //パターン1：画面が既に表示されていて通知が飛んできた時に勝手に呼ばれる
-        NSLog(@"呼ばれる");
-        [self.regViewConview fire];
-        return;
-    }
-    
-    if (application.applicationState == UIApplicationStateInactive) {
-        //パターン2：アプリがバックグラウンドではアクティブでない時に通知をタップ
-        [self.regViewConview fire];
-                NSLog(@"呼ばれる");
-        return;
-    }
-    if (application.applicationState == UIApplicationStateBackground) {
-        //パターン3：アプリがバックグラウンドの時に通知をタップ
-        [self.regViewConview fire];
-                NSLog(@"呼ばれる");
-        return;
-    }
-    
-    
-//    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"UIApplicationDidReceiveLocalNotification" object:self]];
-}
+//- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+//    if (application.applicationState == UIApplicationStateActive) {
+//        //パターン1：画面が既に表示されていて通知が飛んできた時に勝手に呼ばれる
+//        NSLog(@"呼ばれる");
+//        [self.regViewConview fire];
+//        return;
+//    }
+//    
+//    if (application.applicationState == UIApplicationStateInactive) {
+//        //パターン2：アプリがバックグラウンドではアクティブでない時に通知をタップ
+//        [self.regViewConview fire];
+//                NSLog(@"呼ばれる");
+//        return;
+//    }
+//    if (application.applicationState == UIApplicationStateBackground) {
+//        //パターン3：アプリがバックグラウンドの時に通知をタップ
+//        [self.regViewConview fire];
+//                NSLog(@"呼ばれる");
+//        return;
+//    }
+//    
+//    
+////    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"UIApplicationDidReceiveLocalNotification" object:self]];
+//}
 
 @end

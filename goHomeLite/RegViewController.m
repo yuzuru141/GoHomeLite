@@ -15,7 +15,7 @@
 @implementation RegViewController{
     UISwitch *sw;
     BOOL locationSearch;
-    BOOL firstlocation;
+//    BOOL firstlocation;
     NSArray* aItemList;
     NSArray* aItemList2;
     NSInteger selectTimeFrom;
@@ -55,14 +55,14 @@
 -(void)viewBackground{
     
     //現在地を設定するか検索で場所を指定するかで使うlocationSearchを初期化しておく
-    locationSearch = nil;
+//    locationSearch = nil;
     
     //位置情報をスタートする日付も初期化しておく
     selectTimeFrom = 0;
     selectTimeTo = 0;
     
     //位置情報を取得するのが最初かどうかフラグを立てる
-    BOOL firstlocation = YES;
+//    BOOL firstlocation = YES;
     
     //スクリーンサイズの取得
     CGRect screenSize = [[UIScreen mainScreen] bounds];
@@ -75,8 +75,7 @@
     
     //この場所を登録しますかラベル
     CGRect thisPlaceRect = CGRectMake(width/10, height/9, width-width/10*2, 35);
-    UILabel *labelPlan = [[UILabel alloc]init];
-    labelPlan = [[UILabel alloc]initWithFrame:thisPlaceRect];
+    UILabel *labelPlan = [[UILabel alloc]initWithFrame:thisPlaceRect];
     labelPlan.text = NSLocalizedString(@"register this place", nil);
     [self.view addSubview:labelPlan];
     
@@ -97,6 +96,20 @@
     [search addTarget:self action:@selector(searchButtonTapped:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:search];
     
+    //検索後のターゲット名前を表示させるラベル
+    CGRect targetName = CGRectMake(width/10+40, height/9*2+30, width-width/10*2, 35);
+    UILabel *labelName = [[UILabel alloc]initWithFrame:targetName];
+    NSString *placeName = [[NSString alloc]init];
+    NSUserDefaults *placeDefault = [NSUserDefaults standardUserDefaults];
+    placeName = [placeDefault objectForKey:@"PLACE"];
+    if(!(placeName==nil)){
+        [placeDefault setObject:nil forKey:@"PLACE"];
+    }else{
+        
+    }
+    labelName.text = placeName;
+    [self.view addSubview:labelName];
+
     //半径指定ラベル
     CGRect radiusLabelRect = CGRectMake(width/10, height/9*3, width-width/10*2, 35);
     UILabel *radiusLabel = [[UILabel alloc]initWithFrame:radiusLabelRect];
@@ -161,6 +174,7 @@
     }else{
         locationSearch = YES;
     }
+    NSLog(@"locationSearch=%d",locationSearch);
 }
 
 
@@ -195,6 +209,7 @@
         case 0: // 1列目
             selectTimeFrom = 0;
             selectTimeFrom = [pickerView selectedRowInComponent:0];
+            NSLog(@"%ldから",(long)selectTimeFrom);
             [selectTimeDefault setInteger:selectTimeFrom forKey:@"SELECTTIMEFIRST"];
             [selectTimeDefault synchronize];
             return;
@@ -202,6 +217,7 @@
         case 1: // 2列目
             selectTimeTo = 0;
             selectTimeTo = 1+[pickerView selectedRowInComponent:1];
+            NSLog(@"%ldまで",(long)selectTimeTo);
             [selectTimeDefault setInteger:selectTimeTo forKey:@"SELECTTIMEEND"];
             [selectTimeDefault synchronize];
             return;
@@ -365,14 +381,23 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation
 {
-    if (firstlocation == YES && locationSearch == NO) {
+//    if (firstlocation == YES && locationSearch == NO) {
+//        //現在地をジオフェンスにセットするため、緯度経度を取得する
+//        NSUserDefaults *thisPlace = [NSUserDefaults standardUserDefaults];
+//        [thisPlace setDouble:newLocation.coordinate.longitude forKey:@"LONHERE"];
+//        [thisPlace setDouble:newLocation.coordinate.latitude forKey:@"LATHERE"];
+//        [thisPlace synchronize];
+//    }
+//    firstlocation = NO;
+    
+    if (locationSearch == NO) {
         //現在地をジオフェンスにセットするため、緯度経度を取得する
         NSUserDefaults *thisPlace = [NSUserDefaults standardUserDefaults];
         [thisPlace setDouble:newLocation.coordinate.longitude forKey:@"LONHERE"];
         [thisPlace setDouble:newLocation.coordinate.latitude forKey:@"LATHERE"];
         [thisPlace synchronize];
     }
-    firstlocation = NO;
+    
     [self.locationManager stopUpdatingLocation];
 }
 
@@ -390,11 +415,10 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     NSUserDefaults *radius = [NSUserDefaults standardUserDefaults];
     NSString *radiusString = [radius objectForKey:@"RADIUS"];
     
-    if ([radiusString isEqualToString:nil]) {
-        radiusString = @"500";
-    }
-    
     CLLocationDistance radiusOnMeter = radiusString.doubleValue;
+    if (radiusOnMeter == 0.00) {
+        radiusOnMeter = 500.00;
+    }
     
     NSLog(@"radius=%f",radiusOnMeter);
     
@@ -407,8 +431,8 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
         lat = [placeSet doubleForKey:@"LAT"];
         lon = [placeSet doubleForKey:@"LON"];
     }else{
-        lat = [placeSet doubleForKey:@"LONHERE"];
-        lon = [placeSet doubleForKey:@"LATHERE"];
+        lat = [placeSet doubleForKey:@"LATHERE"];
+        lon = [placeSet doubleForKey:@"LONHERE"];
     }
     
     NSLog(@"lat=%f",lat);
@@ -417,6 +441,12 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     CLCircularRegion *region = [[CLCircularRegion alloc] initWithCenter:CLLocationCoordinate2DMake(lat, lon)
                                                                  radius:radiusOnMeter
                                                              identifier:@"target"];
+    
+//    CLCircularRegion *region = [[CLCircularRegion alloc] initWithCenter:CLLocationCoordinate2DMake(37.785834, -122.406417)
+//                                                                 radius:200
+//                                                             identifier:@"target"];
+    
+    NSLog(@"region=%@",[region description]);
     //ジオフェンスをスタート
     [self.locationManager startMonitoringForRegion:region];
     
@@ -431,11 +461,40 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     else if (selectTimeFrom==0 && selectTimeTo==0){
         [self alertViewMethod:@"帰宅時間を設定してください"];
     }
+
+    NSDate *today = [NSDate date];
+    NSCalendar *currentCalendar =  [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *dateComp = [[NSDateComponents alloc] init];
+    dateComp = [currentCalendar components:(NSCalendarUnitYear | NSCalendarUnitMonth
+                                                    | NSCalendarUnitDay  | NSCalendarUnitHour
+                                                    | NSCalendarUnitMinute | NSCalendarUnitSecond )
+                                          fromDate:today];
+    NSLog(@"dateComp=%ld",(long)dateComp.minute);
+    NSInteger needMinutes = 60-(long)dateComp.minute;
     
-    //最初のViewに戻る
+    NSUserDefaults *selectTimeDefault = [NSUserDefaults standardUserDefaults];
+    selectTimeFrom = [selectTimeDefault integerForKey:@"SELECTTIMEFIRST"];
+    NSLog(@"selectTimeFrom=%ld",selectTimeFrom);
+    selectTimeTo = [selectTimeDefault integerForKey:@"SELECTTIMEEND"];
+    NSLog(@"selectTimeTo=%ld",selectTimeTo);
+
+    //現在すでにユーザが設定した時間であればすぐにfire
+    if (selectTimeFrom <= (long)dateComp.hour){
+            if((long)dateComp.hour < selectTimeTo){
+//        [self fire];
+        [self runLoop];
+            }
+    }
+    //ユーザが選択した時間かどうか１時間に一回チェックする
+    [self performSelector:@selector(runLoopMethod) withObject:nil afterDelay:needMinutes*60];
     
+//    [self fire];
+    
+    //最初のViewControllerに戻る
     
 }
+
+
 
 //timerで呼び出す緯度経度情報
 - (void)getGpsData:(NSTimer *)theTimer {
@@ -444,7 +503,7 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     CLLocationCoordinate2D coordinate = [location coordinate];// 座標を取得
     NSString *lat = [[NSString alloc] initWithFormat:@"%f", coordinate.latitude];  // 経度を取得
     NSString *lng = [[NSString alloc] initWithFormat:@"%f", coordinate.longitude]; // 緯度を取得
-    NSLog(@"+++++ [デリゲートによらない場合]緯度,经度: %@, %@", lat, lng);
+    NSLog(@"現在地緯度,经度: %@, %@", lat, lng);
 }
 
 
@@ -459,16 +518,97 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
           didExitRegion:(CLRegion *)region{
     NSLog(@"ジオフェンス領域から出ました");
     
-    //ここでgmailを送る関数を書く
+//ここでユーザのgmailから送る関数を書く　lineも良いかも
     
+//    // LINEで送る（Lineアプリの起動なのであまり意味がない。。）
+//    UIImage *image = [UIImage imageNamed:@"kaeru.png"];
+//    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+//    [pasteboard setData:UIImagePNGRepresentation(image)
+//      forPasteboardType:@"public.png"];
+//    NSString *lineUrlString = [NSString stringWithFormat:@"line://msg/image/%@", pasteboard.name];
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:lineUrlString]];
+    
+    
+    //gmail送信
+    [self sendEmailInBackground];
+    
+    //ショートメール送信
+    [self displaySMSComposerSheet];
+    NSLog(@"発信!");
+}
 
 
+//SMS送信
+- (void)displaySMSComposerSheet {
+    // シミュレータでは SMS が起動しないので return する。
+    if(![MFMessageComposeViewController canSendText]) {
+        return;
+    }
+    MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
+    picker.messageComposeDelegate = self;
+    picker.body = [NSString stringWithUTF8String:"もうすぐ帰ります"];
+    picker.recipients = [NSArray arrayWithObjects:@"080-3926-1414", nil];
+    NSLog(@"SNS発信");
+    [self presentModalViewController:picker animated:YES];
+}
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+//gMailを送信
+-(void)sendEmailInBackground
+{
+    NSLog(@"Start Sending");
+    SKPSMTPMessage *emailMessage = [[SKPSMTPMessage alloc] init];
+    emailMessage.fromEmail = @"yuzuru141@gmail.com"; //送信者メールアドレス（Gmailのアカウント）
+    emailMessage.toEmail = @"yuzuru141@hotmail.com";                //宛先メールアドレス
+    //emailMessage.ccEmail =@"cc@address";             //ccメールアドレス
+    //emailMessage.bccEmail =@"bcc@address";         //bccメールアドレス
+    emailMessage.requiresAuth = YES;
+    emailMessage.relayHost = @"smtp.gmail.com";
+    emailMessage.login = @"yuzuru141@gmail.com";         //ユーザ名（Gmailのアカウント）
+    emailMessage.pass = @"Yu2uruA1R1e";                       //パスワード（Gmailのアカウント）
+    //2段階認証プロセスを利用する場合、アプリパスワードを使用する
+    emailMessage.subject =@"もうすぐ帰ります"; //件名に記載する内容
+    emailMessage.wantsSecure = YES;
+    emailMessage.delegate = self;
+    NSString *messageBody = @""; //メール本文に記載する内容
+    NSDictionary *plainMsg = [NSDictionary dictionaryWithObjectsAndKeys:@"text/plain",kSKPSMTPPartContentTypeKey, messageBody,kSKPSMTPPartMessageKey,@"8bit",kSKPSMTPPartContentTransferEncodingKey,nil];
+    
+    //メールへの添付総まとめ配列（本文含む)
+    NSMutableArray *mailParts = [NSMutableArray array];
+    
+    //本文格納
+    [mailParts addObject:plainMsg];
+
+    //メールの添付情報プロパティへ格納
+    emailMessage.parts = mailParts;
+    
+    //メール送信
+    [emailMessage send];
+}
+
+//gmail送信OK
+-(void)messageSent:(SKPSMTPMessage *)message
+{
+    NSLog(@"送信完了");
+}
+
+
+// gmail送信NG
+-(void)messageFailed:(SKPSMTPMessage *)message error:(NSError *)error
+{
+        NSLog(@"Gmail送信失敗 - error(%ld): %@",(long)[error code],[error localizedDescription]);
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"送れませんでした" message:[error localizedDescription] delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles: nil];
+    [alert show];
 }
 
 
 // ジオフェンスしっぱい。
 -(void)locationManager:(CLLocationManager *)manager monitoringDidFailForRegion:(CLRegion *)region withError:(NSError *)error {
     NSLog(@"ジオフェンス領域%@しっぱい",region.identifier);
+    NSLog(@"error=%@",error);
 }
 
 
@@ -493,48 +633,48 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
 }
 
 //バックグラウンド状態の時に通知する。
--(void)LocalNotificationStart{
-    
-    //NSuserdefaultsから設定した時間を読み込む
-    NSUserDefaults *selectTimeDefault = [NSUserDefaults standardUserDefaults];
-    selectTimeFrom = [selectTimeDefault integerForKey:@"SELECTTIMEFIRST"];
-    NSLog(@"selectTimeFrom=%ld",selectTimeFrom);
-    selectTimeTo = [selectTimeDefault integerForKey:@"SELECTTIMEEND"];
-    NSLog(@"selectTimeTo=%ld",selectTimeTo);
-
-    
-    //現在時刻から取得した時間にユーザが選択した通知時刻をセットする
-    NSDate *today = [NSDate date];
-    NSCalendar *currentCalendar =  [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *dateComp = [[NSDateComponents alloc] init];
-    dateComp = [currentCalendar components:(NSCalendarUnitYear | NSCalendarUnitMonth
-                                            | NSCalendarUnitDay  | NSCalendarUnitHour
-                                            | NSCalendarUnitMinute | NSCalendarUnitSecond )
-                                  fromDate:today];
-//        dateComp.hour = selectTimeFrom;
-    dateComp.hour = 19;
-//        dateComp.minute == selectTimeFrom
-    dateComp.minute = 41;
-        dateComp.second = 0;
-        
-        //アラートを作成
-        NSDate *notificationDate = [currentCalendar dateFromComponents:dateComp];
-        NSLog(@"notificationDate=%@",[notificationDate descriptionWithLocale:[NSLocale currentLocale]]);;
-        
-        //一度全ての通知をキャンセルさせる
-        [[UIApplication sharedApplication] cancelAllLocalNotifications];
-        
-        UILocalNotification *notification = [[UILocalNotification alloc]init];
-        notification.fireDate = notificationDate;
-        notification.repeatInterval = NSCalendarUnitDay;
-        notification.shouldGroupAccessibilityChildren = YES;
-        notification.timeZone = [NSTimeZone defaultTimeZone];
-        notification.soundName = UILocalNotificationDefaultSoundName;
-        notification.applicationIconBadgeNumber = -1;
-    notification.alertBody =@"test";
-        [[UIApplication sharedApplication]scheduleLocalNotification:notification];
-            
-}
+//-(void)LocalNotificationStart{
+//    
+//    //NSuserdefaultsから設定した時間を読み込む
+//    NSUserDefaults *selectTimeDefault = [NSUserDefaults standardUserDefaults];
+//    selectTimeFrom = [selectTimeDefault integerForKey:@"SELECTTIMEFIRST"];
+//    NSLog(@"selectTimeFrom=%ld",selectTimeFrom);
+//    selectTimeTo = [selectTimeDefault integerForKey:@"SELECTTIMEEND"];
+//    NSLog(@"selectTimeTo=%ld",selectTimeTo);
+//
+//    
+//    //現在時刻から取得した時間にユーザが選択した通知時刻をセットする
+//    NSDate *today = [NSDate date];
+//    NSCalendar *currentCalendar =  [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+//    NSDateComponents *dateComp = [[NSDateComponents alloc] init];
+//    dateComp = [currentCalendar components:(NSCalendarUnitYear | NSCalendarUnitMonth
+//                                            | NSCalendarUnitDay  | NSCalendarUnitHour
+//                                            | NSCalendarUnitMinute | NSCalendarUnitSecond )
+//                                  fromDate:today];
+////        dateComp.hour = selectTimeFrom;
+//    dateComp.hour = 19;
+////        dateComp.minute == selectTimeFrom
+//    dateComp.minute = 41;
+//        dateComp.second = 0;
+//        
+//        //アラートを作成
+//        NSDate *notificationDate = [currentCalendar dateFromComponents:dateComp];
+//        NSLog(@"notificationDate=%@",[notificationDate descriptionWithLocale:[NSLocale currentLocale]]);;
+//        
+//        //一度全ての通知をキャンセルさせる
+//        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+//        
+//        UILocalNotification *notification = [[UILocalNotification alloc]init];
+//        notification.fireDate = notificationDate;
+//        notification.repeatInterval = NSCalendarUnitDay;
+//        notification.shouldGroupAccessibilityChildren = YES;
+//        notification.timeZone = [NSTimeZone defaultTimeZone];
+//        notification.soundName = UILocalNotificationDefaultSoundName;
+//        notification.applicationIconBadgeNumber = -1;
+//    notification.alertBody =@"test";
+//        [[UIApplication sharedApplication]scheduleLocalNotification:notification];
+//            
+//}
 
 
 //バックグラウンド通信
@@ -563,12 +703,64 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
 //            }
 //}
 
-- (void)fire{
-    
-    //5分に一回ロケーションマネージャを立ち上げる
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(getGpsData:)  userInfo:nil repeats:YES];
+
+//3分に一回ロケーションマネージャを立ち上げる（これはもう不要）
+//- (void)fire{
+////    self.timer = [NSTimer scheduledTimerWithTimeInterval:180 target:self selector:@selector(getGpsData:)  userInfo:nil repeats:YES];
+//    
+//        self.timer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(getGpsData:)  userInfo:nil repeats:YES];
+//}
+
+
+
+
+//１時間に1回指定時間に達しているかチェックする。
+- (void)runLoopMethod{
+    NSTimer *mainTimer = [NSTimer timerWithTimeInterval:3600 target:self selector:@selector(runLoop) userInfo:nil repeats:YES];
+//    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+    [[NSRunLoop currentRunLoop] addTimer: mainTimer forMode:NSDefaultRunLoopMode];
+//    [runLoop addTimer:mainTimer forMode:NSRunLoopCommonModes];
 }
 
+
+//ユーザが指定した時間だけfireメソッドを呼ぶ
+- (void)runLoop{
+    NSDate *today = [NSDate date];
+    NSCalendar *currentCalendar =  [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    NSDateComponents *dateComp = [[NSDateComponents alloc] init];
+    dateComp = [currentCalendar components:(NSCalendarUnitYear | NSCalendarUnitMonth
+                                            | NSCalendarUnitDay  | NSCalendarUnitHour
+                                            | NSCalendarUnitMinute | NSCalendarUnitSecond )
+                                  fromDate:today];
+    
+    NSUserDefaults *selectTimeDefault = [NSUserDefaults standardUserDefaults];
+    selectTimeFrom = [selectTimeDefault integerForKey:@"SELECTTIMEFIRST"];
+    NSLog(@"selectTimeFrom=%ld",selectTimeFrom);
+    selectTimeTo = [selectTimeDefault integerForKey:@"SELECTTIMEEND"];
+    NSLog(@"selectTimeTo=%ld",selectTimeTo);
+    
+    
+    //３分に一回GPSをゲットする
+    NSTimer *subTimer = [NSTimer timerWithTimeInterval:3 target:self selector:@selector(getGpsData:) userInfo:nil repeats:YES];
+    //セットした時間内だけGPSを取得する
+    if (selectTimeFrom <= (long)dateComp.hour){
+        if((long)dateComp.hour < selectTimeTo){
+//        [self fire];
+            [[NSRunLoop currentRunLoop] addTimer: subTimer forMode:NSDefaultRunLoopMode];
+            NSLog(@"時間内");
+        }else{
+        if ([subTimer isValid]) {
+            [subTimer invalidate];
+            }
+            NSLog(@"最後の時間より後");
+        }
+    }else{
+        if ([subTimer isValid]) {
+            [subTimer invalidate];
+        }
+        NSLog(@"最初の時間より前");
+    }
+}
 
 // 常に回転させない
 - (BOOL)shouldAutorotate
@@ -586,6 +778,7 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
 - (IBAction)searchButtonTapped:(id)sender {
     [self locationAuth];
     locationSearch = YES;
+    NSLog(@"locationSearch=%d",locationSearch);
     [self performSegueWithIdentifier:@"regviewToYahooview" sender:self];
 }
 

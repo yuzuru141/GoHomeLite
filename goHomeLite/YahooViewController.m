@@ -282,8 +282,9 @@ NSString * const APIKEY = @"dj0zaiZpPUFCT0pHYU9MT0RObiZzPWNvbnN1bWVyc2VjcmV0Jng9
     _locationArray = nil;
     
     [self.TableView reloadData];
-    
-    [self dismissViewControllerAnimated:YES completion:NULL];
+//    [self dismissViewControllerAnimated:YES completion:NULL];
+    [self performSegueWithIdentifier:@"YahooviewToRegview" sender:self];
+
 }
 
 

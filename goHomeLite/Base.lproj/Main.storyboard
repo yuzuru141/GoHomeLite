@@ -60,10 +60,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <segue destination="bc7-Hc-coK" kind="showDetail" identifier="YahooviewToRegview" id="VJF-mk-O3l"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GFH-tf-lee" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1618" y="271"/>
+            <point key="canvasLocation" x="1590" y="271"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="VJF-mk-O3l"/>
+    </inferredMetricsTieBreakers>
 </document>

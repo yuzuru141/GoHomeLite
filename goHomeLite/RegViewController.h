@@ -8,13 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+//gmail
+#import "SKPSMTPMessage.h"
+#import "NSData+Base64Additions.h"
+//SMS
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMessageComposeViewController.h>
 
-@interface RegViewController : UIViewController<CLLocationManagerDelegate,UITextFieldDelegate,UIScrollViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
+
+//@interface RegViewController : UIViewController<CLLocationManagerDelegate,UITextFieldDelegate,UIScrollViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
+
+@interface RegViewController : UIViewController<CLLocationManagerDelegate,UITextFieldDelegate,UIScrollViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,SKPSMTPMessageDelegate,MFMessageComposeViewControllerDelegate>
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property NSTimer* timer;
 
--(void)LocalNotificationStart;
-- (void)fire;
+//-(void)LocalNotificationStart;
 
 @end

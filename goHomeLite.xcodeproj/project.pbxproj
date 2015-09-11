@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE66D8BE1BA2C82300592593 /* kaeru.png in Resources */ = {isa = PBXBuildFile; fileRef = FE66D8BD1BA2C82300592593 /* kaeru.png */; };
+		FE66D8C21BA2FFE800592593 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE66D8C11BA2FFE800592593 /* CFNetwork.framework */; };
+		FE66D8FF1BA305F500592593 /* Base64Transcoder.m in Sources */ = {isa = PBXBuildFile; fileRef = FE66D8F61BA305F500592593 /* Base64Transcoder.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FE66D9001BA305F500592593 /* HSK_CFUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = FE66D8F81BA305F500592593 /* HSK_CFUtilities.m */; };
+		FE66D9011BA305F500592593 /* NSData+Base64Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = FE66D8FA1BA305F500592593 /* NSData+Base64Additions.m */; };
+		FE66D9021BA305F500592593 /* NSStream+SKPSMTPExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FE66D8FC1BA305F500592593 /* NSStream+SKPSMTPExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		FE66D9031BA305F500592593 /* SKPSMTPMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = FE66D8FE1BA305F500592593 /* SKPSMTPMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		FECE79421A43BC0D007D1D3F /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FECE79411A43BC0D007D1D3F /* CoreLocation.framework */; };
 		FED6F32B1A414858002040D9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FED6F32A1A414858002040D9 /* main.m */; };
 		FED6F32E1A414858002040D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FED6F32D1A414858002040D9 /* AppDelegate.m */; };
@@ -30,6 +37,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FE66D8BD1BA2C82300592593 /* kaeru.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kaeru.png; sourceTree = "<group>"; };
+		FE66D8C11BA2FFE800592593 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		FE66D8F51BA305F500592593 /* Base64Transcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Base64Transcoder.h; path = SMTPLibrary/Base64Transcoder.h; sourceTree = "<group>"; };
+		FE66D8F61BA305F500592593 /* Base64Transcoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Base64Transcoder.m; path = SMTPLibrary/Base64Transcoder.m; sourceTree = "<group>"; };
+		FE66D8F71BA305F500592593 /* HSK_CFUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HSK_CFUtilities.h; path = SMTPLibrary/HSK_CFUtilities.h; sourceTree = "<group>"; };
+		FE66D8F81BA305F500592593 /* HSK_CFUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HSK_CFUtilities.m; path = SMTPLibrary/HSK_CFUtilities.m; sourceTree = "<group>"; };
+		FE66D8F91BA305F500592593 /* NSData+Base64Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64Additions.h"; path = "SMTPLibrary/NSData+Base64Additions.h"; sourceTree = "<group>"; };
+		FE66D8FA1BA305F500592593 /* NSData+Base64Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64Additions.m"; path = "SMTPLibrary/NSData+Base64Additions.m"; sourceTree = "<group>"; };
+		FE66D8FB1BA305F500592593 /* NSStream+SKPSMTPExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSStream+SKPSMTPExtensions.h"; path = "SMTPLibrary/NSStream+SKPSMTPExtensions.h"; sourceTree = "<group>"; };
+		FE66D8FC1BA305F500592593 /* NSStream+SKPSMTPExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSStream+SKPSMTPExtensions.m"; path = "SMTPLibrary/NSStream+SKPSMTPExtensions.m"; sourceTree = "<group>"; };
+		FE66D8FD1BA305F500592593 /* SKPSMTPMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SKPSMTPMessage.h; path = SMTPLibrary/SKPSMTPMessage.h; sourceTree = "<group>"; };
+		FE66D8FE1BA305F500592593 /* SKPSMTPMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SKPSMTPMessage.m; path = SMTPLibrary/SKPSMTPMessage.m; sourceTree = "<group>"; };
 		FECE79411A43BC0D007D1D3F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		FED6F3251A414858002040D9 /* goHomeLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = goHomeLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FED6F3291A414858002040D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,7 +66,7 @@
 		FED6F34E1A4148AC002040D9 /* YahooViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YahooViewController.h; sourceTree = "<group>"; };
 		FED6F34F1A4148AC002040D9 /* YahooViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YahooViewController.m; sourceTree = "<group>"; };
 		FED6F3511A414917002040D9 /* RegViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegViewController.h; sourceTree = "<group>"; };
-		FED6F3521A414917002040D9 /* RegViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegViewController.m; sourceTree = "<group>"; };
+		FED6F3521A414917002040D9 /* RegViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = RegViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE66D8C21BA2FFE800592593 /* CFNetwork.framework in Frameworks */,
 				FECE79421A43BC0D007D1D3F /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -69,9 +89,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FE66D8BC1BA2C80B00592593 /* image */ = {
+			isa = PBXGroup;
+			children = (
+				FE66D8BD1BA2C82300592593 /* kaeru.png */,
+			);
+			name = image;
+			sourceTree = "<group>";
+		};
+		FE66D8C71BA3036000592593 /* SMTPLibrary */ = {
+			isa = PBXGroup;
+			children = (
+				FE66D8F51BA305F500592593 /* Base64Transcoder.h */,
+				FE66D8F61BA305F500592593 /* Base64Transcoder.m */,
+				FE66D8F71BA305F500592593 /* HSK_CFUtilities.h */,
+				FE66D8F81BA305F500592593 /* HSK_CFUtilities.m */,
+				FE66D8F91BA305F500592593 /* NSData+Base64Additions.h */,
+				FE66D8FA1BA305F500592593 /* NSData+Base64Additions.m */,
+				FE66D8FB1BA305F500592593 /* NSStream+SKPSMTPExtensions.h */,
+				FE66D8FC1BA305F500592593 /* NSStream+SKPSMTPExtensions.m */,
+				FE66D8FD1BA305F500592593 /* SKPSMTPMessage.h */,
+				FE66D8FE1BA305F500592593 /* SKPSMTPMessage.m */,
+			);
+			name = SMTPLibrary;
+			sourceTree = "<group>";
+		};
 		FED6F31C1A414858002040D9 = {
 			isa = PBXGroup;
 			children = (
+				FE66D8C11BA2FFE800592593 /* CFNetwork.framework */,
 				FECE79411A43BC0D007D1D3F /* CoreLocation.framework */,
 				FED6F3271A414858002040D9 /* goHomeLite */,
 				FED6F3411A414858002040D9 /* goHomeLiteTests */,
@@ -91,6 +137,8 @@
 		FED6F3271A414858002040D9 /* goHomeLite */ = {
 			isa = PBXGroup;
 			children = (
+				FE66D8C71BA3036000592593 /* SMTPLibrary */,
+				FE66D8BC1BA2C80B00592593 /* image */,
 				FED6F3321A414858002040D9 /* Main.storyboard */,
 				FED6F32C1A414858002040D9 /* AppDelegate.h */,
 				FED6F32D1A414858002040D9 /* AppDelegate.m */,
@@ -213,6 +261,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE66D8BE1BA2C82300592593 /* kaeru.png in Resources */,
 				FED6F3341A414858002040D9 /* Main.storyboard in Resources */,
 				FED6F3391A414858002040D9 /* LaunchScreen.xib in Resources */,
 				FED6F3361A414858002040D9 /* Images.xcassets in Resources */,
@@ -234,9 +283,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				FED6F3311A414858002040D9 /* ViewController.m in Sources */,
+				FE66D9001BA305F500592593 /* HSK_CFUtilities.m in Sources */,
 				FED6F32E1A414858002040D9 /* AppDelegate.m in Sources */,
+				FE66D9021BA305F500592593 /* NSStream+SKPSMTPExtensions.m in Sources */,
 				FED6F32B1A414858002040D9 /* main.m in Sources */,
+				FE66D8FF1BA305F500592593 /* Base64Transcoder.m in Sources */,
+				FE66D9011BA305F500592593 /* NSData+Base64Additions.m in Sources */,
 				FED6F3531A414917002040D9 /* RegViewController.m in Sources */,
+				FE66D9031BA305F500592593 /* SKPSMTPMessage.m in Sources */,
 				FED6F3501A4148AC002040D9 /* YahooViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
