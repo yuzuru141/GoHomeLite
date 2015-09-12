@@ -903,8 +903,11 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
 
 //１時間に1回指定時間に達しているかチェックする。
 - (void)runLoopMethod{
+    //まず最初に時間内かを確認させる
+    [self runLoop];
+    //一時間に一回runLoopを走らせる
     NSTimer *mainTimer = [NSTimer timerWithTimeInterval:3600 target:self selector:@selector(runLoop) userInfo:nil repeats:YES];
-//    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
+//        NSTimer *mainTimer = [NSTimer timerWithTimeInterval:3 target:self selector:@selector(runLoop) userInfo:nil repeats:YES];
 //    [[NSRunLoop currentRunLoop] addTimer: mainTimer forMode:NSDefaultRunLoopMode];
     [[NSRunLoop mainRunLoop] addTimer: mainTimer forMode:NSDefaultRunLoopMode];
 //    [runLoop addTimer:mainTimer forMode:NSRunLoopCommonModes];
