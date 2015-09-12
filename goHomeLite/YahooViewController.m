@@ -253,11 +253,11 @@ NSString * const APIKEY = @"dj0zaiZpPUFCT0pHYU9MT0RObiZzPWNvbnN1bWVyc2VjcmV0Jng9
     double lat2 = lat1.doubleValue;
     
     //nsuserdefaultにデータを追加
-    NSUserDefaults *placeDefault = [NSUserDefaults standardUserDefaults];
-    [placeDefault setObject:name forKey:@"PLACE"];
-    [placeDefault setDouble:lon2 forKey:@"LON"];
-    [placeDefault setDouble:lat2 forKey:@"LAT"];
-    [placeDefault synchronize];
+    NSUserDefaults *myDefault = [NSUserDefaults standardUserDefaults];
+    [myDefault setObject:name forKey:@"PLACE"];
+    [myDefault setDouble:lon2 forKey:@"LON"];
+    [myDefault setDouble:lat2 forKey:@"LAT"];
+    [myDefault synchronize];
     
     //確認用
 //    NSString* nameplace = [placeDefault stringForKey:@"PLACE"];
@@ -282,7 +282,7 @@ NSString * const APIKEY = @"dj0zaiZpPUFCT0pHYU9MT0RObiZzPWNvbnN1bWVyc2VjcmV0Jng9
     _locationArray = nil;
     
     [self.TableView reloadData];
-//    [self dismissViewControllerAnimated:YES completion:NULL];
+//    [self dismissViewControllerAnimated:YES completion:nil];
     [self performSegueWithIdentifier:@"YahooviewToRegview" sender:self];
 
 }

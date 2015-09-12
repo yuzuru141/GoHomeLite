@@ -12,13 +12,14 @@
 #import "SKPSMTPMessage.h"
 #import "NSData+Base64Additions.h"
 //SMS
-#import <MessageUI/MessageUI.h>
-#import <MessageUI/MFMessageComposeViewController.h>
+//#import <MessageUI/MessageUI.h>
+//#import <MessageUI/MFMessageComposeViewController.h>
 
 
-//@interface RegViewController : UIViewController<CLLocationManagerDelegate,UITextFieldDelegate,UIScrollViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource>
 
-@interface RegViewController : UIViewController<CLLocationManagerDelegate,UITextFieldDelegate,UIScrollViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,SKPSMTPMessageDelegate,MFMessageComposeViewControllerDelegate>
+//@interface RegViewController : UIViewController<CLLocationManagerDelegate,UITextFieldDelegate,UIScrollViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,SKPSMTPMessageDelegate,MFMessageComposeViewControllerDelegate>
+
+@interface RegViewController : UIViewController<CLLocationManagerDelegate,UITextFieldDelegate,UIScrollViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,SKPSMTPMessageDelegate>
 
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property NSTimer* timer;

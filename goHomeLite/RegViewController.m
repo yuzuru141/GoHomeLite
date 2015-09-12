@@ -20,6 +20,7 @@
     NSArray* aItemList2;
     NSInteger selectTimeFrom;
     NSInteger selectTimeTo;
+    NSString *addressStr;
 }
 
 - (void)viewDidLoad
@@ -73,14 +74,56 @@
 //    scrollview.keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
 //    [self.view addSubview:scrollview];
     
+    NSUserDefaults *myDefault = [NSUserDefaults standardUserDefaults];
+    
+    //宛先メールラベル
+    CGRect mailLabelRect = CGRectMake(width/10, height/9, width-width/10*2, 35);
+    UILabel *mailLabel = [[UILabel alloc]initWithFrame:mailLabelRect];
+    mailLabel.text = @"宛先メール";
+    [self.view addSubview:mailLabel];
+    
+    //宛先メールtextfield
+    CGRect mailTextRect = CGRectMake(width/10+40, height/9+30, width-width/10*2, 35);
+    UITextField *mailTextfield = [[UITextField alloc]initWithFrame:mailTextRect];
+    NSString *mailString = [myDefault objectForKey:@"toMAIL"];
+    if (mailString == nil || [ mailString isEqualToString:@""]) {
+        mailTextfield.placeholder = @"***@mail.com";
+    }else{
+        mailTextfield.text = mailString;
+    }
+    //    textfield.layer.cornerRadius =3;
+    mailTextfield.tag = 0;
+    mailTextfield.returnKeyType = UIReturnKeyDefault;
+    mailTextfield.keyboardType = UIKeyboardTypeEmailAddress;
+    mailTextfield.delegate = self;
+    [self.view addSubview:mailTextfield];
+    
+    
+    //送信文言textfield
+    CGRect subjectTextRect = CGRectMake(width/10+40, height/9*2, width-width/10*2, 35);
+    UITextField *subjectTextfield = [[UITextField alloc]initWithFrame:subjectTextRect];
+    NSString *subjcetString = [myDefault objectForKey:@"SUBJECT"];
+    if (subjcetString == nil || [ subjcetString isEqualToString:@""]) {
+        subjectTextfield.placeholder = @"帰ります";
+    }else{
+        subjectTextfield.text = subjcetString;
+    }
+
+    //    textfield.layer.cornerRadius =3;
+    subjectTextfield.tag = 2;
+    subjectTextfield.returnKeyType = UIReturnKeyDefault;
+    subjectTextfield.keyboardType = UIKeyboardTypeDefault;
+    subjectTextfield.delegate = self;
+    [self.view addSubview:subjectTextfield];
+    
     //この場所を登録しますかラベル
-    CGRect thisPlaceRect = CGRectMake(width/10, height/9, width-width/10*2, 35);
+    CGRect thisPlaceRect = CGRectMake(width/10, height/9*3, width-width/10*2, 35);
     UILabel *labelPlan = [[UILabel alloc]initWithFrame:thisPlaceRect];
     labelPlan.text = NSLocalizedString(@"register this place", nil);
     [self.view addSubview:labelPlan];
     
     //登録スイッチ
-    CGRect swRect = CGRectMake(width/10*2, height/9+30, width-width/4, 35);
+    CGRect swRect = CGRectMake(width/10*2, height/9*3+30, width-width/4, 35);
     sw= [[UISwitch alloc] initWithFrame:swRect];
     sw.onTintColor = [UIColor blackColor];
     sw.on = NO;
@@ -88,7 +131,7 @@
     [self.view addSubview:sw];
     
     //検索サイトへ飛ぶボタン
-    CGRect buttonSearchRect = CGRectMake(width/10, height/9*2, width-width/10*2, 35);
+    CGRect buttonSearchRect = CGRectMake(width/10, height/9*4, width-width/10*2, 35);
     UIButton *search = [[UIButton alloc]initWithFrame:buttonSearchRect];
     search.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [search setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
@@ -97,43 +140,43 @@
     [self.view addSubview:search];
     
     //検索後のターゲット名前を表示させるラベル
-    CGRect targetName = CGRectMake(width/10+40, height/9*2+30, width-width/10*2, 35);
+    CGRect targetName = CGRectMake(width/10+40, height/9*4+30, width-width/10*2, 35);
     UILabel *labelName = [[UILabel alloc]initWithFrame:targetName];
     NSString *placeName = [[NSString alloc]init];
-    NSUserDefaults *placeDefault = [NSUserDefaults standardUserDefaults];
-    placeName = [placeDefault objectForKey:@"PLACE"];
-    if(!(placeName==nil)){
-        [placeDefault setObject:nil forKey:@"PLACE"];
-    }else{
-        
-    }
+    placeName = [myDefault objectForKey:@"PLACE"];
+//    if(!(placeName==nil)){
+//        [myDefault setObject:nil forKey:@"PLACE"];
+//    }else{
+//        
+//    }
     labelName.text = placeName;
     [self.view addSubview:labelName];
 
     //半径指定ラベル
-    CGRect radiusLabelRect = CGRectMake(width/10, height/9*3, width-width/10*2, 35);
+    CGRect radiusLabelRect = CGRectMake(width/10, height/9*5, width-width/10*2, 35);
     UILabel *radiusLabel = [[UILabel alloc]initWithFrame:radiusLabelRect];
     radiusLabel.text = NSLocalizedString(@"please set radius", nil);
     [self.view addSubview:radiusLabel];
     
     //メートルラベル
-    CGRect meterLabelRect = CGRectMake(width/10+100, height/9*3+30, 35, 35);
+    CGRect meterLabelRect = CGRectMake(width/10+100, height/9*5+30, 35, 35);
     UILabel *meterLabel = [[UILabel alloc]initWithFrame:meterLabelRect];
     meterLabel.text = @"M";
     [self.view addSubview:meterLabel];
     
     //半径指定textfield
-    CGRect radiusTextRect = CGRectMake(width/10+40, height/9*3+30, width-width/10*2, 35);
+    CGRect radiusTextRect = CGRectMake(width/10+40, height/9*5+30, width-width/10*2, 35);
     UITextField *textfield = [[UITextField alloc]initWithFrame:radiusTextRect];
     textfield.placeholder = @"500";
+    textfield.tag = 1;
 //    textfield.layer.cornerRadius =3;
     textfield.returnKeyType = UIReturnKeyDefault;
-    textfield.keyboardType = UIKeyboardTypeNumberPad;
+    textfield.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
     textfield.delegate = self;
     [self.view addSubview:textfield];
     
     //帰宅時間ラベル
-    CGRect timeLabelRect = CGRectMake(width/10, height/9*4, width-width/10*2, 35);
+    CGRect timeLabelRect = CGRectMake(width/10, height/9*6, width-width/10*2, 35);
     UILabel *timeLabel = [[UILabel alloc]initWithFrame:timeLabelRect];
     timeLabel.text = @"帰宅時間";
     [self.view addSubview:timeLabel];
@@ -142,7 +185,7 @@
     aItemList = [[NSArray alloc] initWithObjects:@"00:00",@"01:00",@"02:00",@"03:00",@"04:00",@"05:00",@"06:00",@"07:00",@"08:00",@"09:00",@"10:00",@"11:00",@"12:00",@"13:00",@"14:00",@"15:00",@"16:00",@"17:00",@"18:00",@"19:00",@"20:00",@"21:00",@"22:00",@"23:00",nil];
     aItemList2 = [[NSArray alloc] initWithObjects:@"01:00",@"02:00",@"03:00",@"04:00",@"05:00",@"06:00",@"07:00",@"08:00",@"09:00",@"10:00",@"11:00",@"12:00",@"13:00",@"14:00",@"15:00",@"16:00",@"17:00",@"18:00",@"19:00",@"20:00",@"21:00",@"22:00",@"23:00",@"24:00",nil];
     UIPickerView*  oPicker = [[UIPickerView alloc] init];
-    oPicker.frame = CGRectMake(width/10+40, height/9*4+20, width-width/10*2, 35);
+    oPicker.frame = CGRectMake(width/10+40, height/9*6+15, width-width/10*2, 35);
     oPicker.showsSelectionIndicator = YES;
     oPicker.delegate = self;
     oPicker.dataSource = self;
@@ -151,10 +194,25 @@
     CGAffineTransform s0 = CGAffineTransformMakeScale(0.7, 0.7);
     CGAffineTransform t1 = CGAffineTransformMakeTranslation(-oPicker.bounds.size.width/2, -oPicker.bounds.size.height/2);
     oPicker.transform = CGAffineTransformConcat(t0, CGAffineTransformConcat(s0, t1));
+    
+
+    NSInteger timeFirstInt = [myDefault integerForKey:@"SELECTTIMEFIRST"];
+    NSInteger timeEndInt = [myDefault integerForKey:@"SELECTTIMEEND"]-1;
+    
+    //NSuserdefaultsから取得した情報をpickerの初期値に反映。
+    if (!(timeFirstInt == 0)) {
+        [oPicker selectRow:timeFirstInt inComponent:0 animated:YES];
+        NSLog(@"timeFirstInt=%ld",(long)timeFirstInt);
+    }
+    if (!(timeEndInt == 0)) {
+        [oPicker selectRow:timeEndInt inComponent:1 animated:YES];
+        NSLog(@"timeEndInt=%ld",(long)timeEndInt);
+    }
+    
     [self.view addSubview:oPicker];
     
     //設定完了ボタン
-    CGRect buttonDoneRect = CGRectMake(0, height/9*7, width, 35);
+    CGRect buttonDoneRect = CGRectMake(0, height/9*8, width, 35);
     UIButton *done = [[UIButton alloc]initWithFrame:buttonDoneRect];
     done.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     [done setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
@@ -168,6 +226,12 @@
 - (IBAction)placeSetHere:(UISwitch*)sender{
     
     if(sw.on==1){
+        //登録情報をクリアにする
+        NSUserDefaults *myDefault = [NSUserDefaults standardUserDefaults];
+        if(!([myDefault objectForKey:@"PLACE"]==nil)){
+            [myDefault setObject:nil forKey:@"PLACE"];
+        }
+        
         //位置情報とジオフェンスセット開始
         [self locationAuth];
         locationSearch = NO;
@@ -180,9 +244,42 @@
 
 //textfieldでリターンキーが押されるとキーボードを隠す。
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    NSUserDefaults *radius = [NSUserDefaults standardUserDefaults];
-    [radius setObject:textField.text forKey:@"RADIUS"];
-    [radius synchronize];
+    NSUserDefaults *mydefault = [NSUserDefaults standardUserDefaults];
+    if (textField.tag == 0) {
+        //全角チェック
+        if(![textField.text canBeConvertedToEncoding:NSASCIIStringEncoding]) {
+            [self alertViewMethod:@"半角英数字とアルファベットで入力してください"];
+        }else{
+            //@が含まれているかチェック
+            NSRange range = [textField.text rangeOfString:@"@"];
+            if (range.location != NSNotFound) {
+                if ([textField.text rangeOfString:@" "].location != NSNotFound) {
+                    //空文字チェック
+                    [self alertViewMethod:@"メールアドレスにスペースが入っていますので、確認してください"];
+                }else{
+                NSLog(@"@発見");
+                [mydefault setObject:textField.text forKey:@"toMAIL"];
+                NSLog(@"Mail=%@",textField.text);
+                }
+            } else {
+                NSLog(@"@ない");
+                [self alertViewMethod:@"適切なメールアドレスを入力してください"];
+            }
+        }
+    }else if(textField.tag == 1){
+        [mydefault setObject:textField.text forKey:@"RADIUS"];
+        NSLog(@"RADIUS=%@",textField.text);
+    }else if(textField.tag == 2){
+        if (textField.text == nil || [ textField.text isEqualToString:@""]) {
+            [mydefault setObject:@"帰ります" forKey:@"SUBJECT"];
+            NSLog(@"SUBJECT=帰ります");
+        }else{
+            [mydefault setObject:textField.text forKey:@"SUBJECT"];
+            NSLog(@"SUBJECT=%@",textField.text);
+        }
+    }
+    [mydefault synchronize];
+    [textField resignFirstResponder];
     return YES;
 }
 
@@ -412,8 +509,8 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
 //完了ボタンでジオフェンスをセットする
 - (void)doneButton{
     
-    NSUserDefaults *radius = [NSUserDefaults standardUserDefaults];
-    NSString *radiusString = [radius objectForKey:@"RADIUS"];
+    NSUserDefaults *mydefault = [NSUserDefaults standardUserDefaults];
+    NSString *radiusString = [mydefault objectForKey:@"RADIUS"];
     
     CLLocationDistance radiusOnMeter = radiusString.doubleValue;
     if (radiusOnMeter == 0.00) {
@@ -425,14 +522,12 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     double lat;
     double lon;
     
-    NSUserDefaults *placeSet = [NSUserDefaults standardUserDefaults];
-    
     if (locationSearch==YES) {
-        lat = [placeSet doubleForKey:@"LAT"];
-        lon = [placeSet doubleForKey:@"LON"];
+        lat = [mydefault doubleForKey:@"LAT"];
+        lon = [mydefault doubleForKey:@"LON"];
     }else{
-        lat = [placeSet doubleForKey:@"LATHERE"];
-        lon = [placeSet doubleForKey:@"LONHERE"];
+        lat = [mydefault doubleForKey:@"LATHERE"];
+        lon = [mydefault doubleForKey:@"LONHERE"];
     }
     
     NSLog(@"lat=%f",lat);
@@ -452,14 +547,30 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     
     //開始時間と終了時間が同じであればすぐにロケーションマネージャを立ち上げる
     if ((selectTimeFrom==selectTimeTo)&&(selectTimeFrom!=0 && selectTimeTo!=0)) {
-        [self alertViewMethod:@"帰宅時間の範囲が正しく設定されていません"];
+        NSInteger timeFirstInt = [mydefault integerForKey:@"SELECTTIMEFIRST"];
+        NSInteger timeEndInt = [mydefault integerForKey:@"SELECTTIMEEND"]-1;
+        //NSuserdefaultsから取得した情報をpickerの初期値に反映。
+        if ((timeFirstInt == 0) || (timeEndInt == 0)) {
+            [self alertViewMethod:@"帰宅時間の範囲が正しく設定されていません"];
+        }
     }
     //開始時間の方が終了時間よりも大きかったらすぐにロケーションマネージャを立ち上げる
     else if (selectTimeFrom>selectTimeTo){
-        [self alertViewMethod:@"帰宅時間の範囲が正しく設定されていません"];
+        NSInteger timeFirstInt = [mydefault integerForKey:@"SELECTTIMEFIRST"];
+        NSInteger timeEndInt = [mydefault integerForKey:@"SELECTTIMEEND"]-1;
+        //NSuserdefaultsから取得した情報をpickerの初期値に反映。
+        if ((timeFirstInt == 0) || (timeEndInt == 0)) {
+            [self alertViewMethod:@"帰宅時間の範囲が正しく設定されていません"];
+        }
     }//時間を設定しない状態だと警告を流す
     else if (selectTimeFrom==0 && selectTimeTo==0){
-        [self alertViewMethod:@"帰宅時間を設定してください"];
+        //すでに選択している時はエラーを出さない
+        NSInteger timeFirstInt = [mydefault integerForKey:@"SELECTTIMEFIRST"];
+        NSInteger timeEndInt = [mydefault integerForKey:@"SELECTTIMEEND"]-1;
+        //NSuserdefaultsから取得した情報をpickerの初期値に反映。
+        if ((timeFirstInt == 0) || (timeEndInt == 0)) {
+            [self alertViewMethod:@"帰宅時間を設定してください"];
+        }
     }
 
     NSDate *today = [NSDate date];
@@ -483,15 +594,77 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
             if((long)dateComp.hour < selectTimeTo){
 //        [self fire];
         [self runLoop];
+//                NSLog(@"すでにジオフェンス開始時間内です");
             }
     }
     //ユーザが選択した時間かどうか１時間に一回チェックする
-    [self performSelector:@selector(runLoopMethod) withObject:nil afterDelay:needMinutes*60];
+    [self performSelector:@selector(runLoopMethod) withObject:nil afterDelay:needMinutes];
+    //NSLog(@"%ld分後にチェックします",(long)needMinutes);
     
-//    [self fire];
+    
+    //現在地を取得した場合は、現在地の住所を返す
+    NSString *placeName = [mydefault objectForKey:@"PLACE"];
+    if (placeName == nil || [ placeName isEqualToString:@""]){
+        NSString *placeAdress= [self getAddressFromLat:lat AndLot:lon];
+        NSLog(@"placeAdress=%@",placeAdress);
+        [mydefault setObject:placeAdress forKey:@"PLACE"];
+        NSLog(@"サーチしてない");
+    }
+    
+
+    [mydefault synchronize];
     
     //最初のViewControllerに戻る
+//    [self dismissViewControllerAnimated:YES completion:nil];
+    [self performSegueWithIdentifier:@"regviewToView" sender:self];
     
+    
+    
+}
+
+
+//緯度経度から住所を取得する
+-(NSString *)getAddressFromLat:(double)lat AndLot:(double)lot{
+    NSDictionary *jsonObjectResults = nil;
+    NSString *urlApi1 = @"http://maps.google.com/maps/api/geocode/json?latlng=";
+    NSString *urlApi2 = @"&sensor=false";
+    NSString *urlApi = [NSString stringWithFormat:@"%@%f,%f%@",urlApi1,lat,lot,urlApi2];
+
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlApi]cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30];
+    
+    //sendSynchronousRequestメソッドでURLにアクセス
+    NSHTTPURLResponse* resp;
+    NSData *json_data = [NSURLConnection sendSynchronousRequest:request returningResponse:&resp error:nil];
+    
+    //通信エラーの際の処理
+    if (resp.statusCode != 200){
+        [self alertViewMethod:@"network error"];//アラートビュー出す
+    }
+    
+    //返ってきたデータをJSONObjectWithDataメソッドで解析
+    else{
+        jsonObjectResults = [NSJSONSerialization JSONObjectWithData:json_data options:NSJSONReadingAllowFragments error:nil];
+        
+        NSDictionary *status = [jsonObjectResults objectForKey:@"status"];
+        NSString *statusString = [status description];
+        
+        if ([statusString isEqualToString:@"ZERO_RESULTS"]) {
+            //            [self alertViewMethod]; //アラートビュー出す
+            NSLog(@"ZERO_RESULTS");
+            addressStr = @" ";
+        }else if([statusString isEqualToString:@"OVER_QUERY_LIMIT"]){
+            NSLog(@"OVER_QUERY_LIMIT");
+            addressStr = @" ";
+        }else{
+            NSMutableArray *result = [jsonObjectResults objectForKey:@"results"];
+            NSDictionary *dic = [result objectAtIndex:0];
+            NSDictionary *dic2 = [dic objectForKey:@"formatted_address"];
+            NSString *fullAddress = [dic2 description];
+            addressStr = [fullAddress substringFromIndex:3];
+        }
+    }
+    NSString *temp = addressStr;
+    return temp;
 }
 
 
@@ -518,7 +691,6 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
           didExitRegion:(CLRegion *)region{
     NSLog(@"ジオフェンス領域から出ました");
     
-//ここでユーザのgmailから送る関数を書く　lineも良いかも
     
 //    // LINEで送る（Lineアプリの起動なのであまり意味がない。。）
 //    UIImage *image = [UIImage imageNamed:@"kaeru.png"];
@@ -532,45 +704,60 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     //gmail送信
     [self sendEmailInBackground];
     
-    //ショートメール送信
-    [self displaySMSComposerSheet];
+    //ショートメール送信をしようとしたがアプリを立ち上げるので、止める
+//    [self displaySMSComposerSheet];
     NSLog(@"発信!");
 }
 
 
 //SMS送信
-- (void)displaySMSComposerSheet {
-    // シミュレータでは SMS が起動しないので return する。
-    if(![MFMessageComposeViewController canSendText]) {
-        return;
-    }
-    MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
-    picker.messageComposeDelegate = self;
-    picker.body = [NSString stringWithUTF8String:"もうすぐ帰ります"];
-    picker.recipients = [NSArray arrayWithObjects:@"080-3926-1414", nil];
-    NSLog(@"SNS発信");
-    [self presentModalViewController:picker animated:YES];
-}
-
-- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
-    [self dismissModalViewControllerAnimated:YES];
-}
+//- (void)displaySMSComposerSheet {
+//    // シミュレータでは SMS が起動しないので return する。
+//    if(![MFMessageComposeViewController canSendText]) {
+//        return;
+//    }
+//    MFMessageComposeViewController *picker = [[MFMessageComposeViewController alloc] init];
+//    picker.messageComposeDelegate = self;
+//    picker.body = [NSString stringWithUTF8String:"もうすぐ帰ります"];
+//    picker.recipients = [NSArray arrayWithObjects:@"080-3926-1414", nil];
+//    NSLog(@"SNS発信");
+//    [self presentModalViewController:picker animated:YES];
+//}
+//
+//- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+//    [self dismissModalViewControllerAnimated:YES];
+//}
 
 //gMailを送信
 -(void)sendEmailInBackground
 {
+    //情報呼び出し
+    NSUserDefaults *mydefault = [NSUserDefaults standardUserDefaults];
+    NSString *toMailAdress = [mydefault stringForKey:@"toMAIL"];
+    NSString *subjectString = [mydefault stringForKey:@"SUBJECT"];
+    NSString *gmailAddress = [mydefault stringForKey:@"GMAIL"];
+    if (gmailAddress == nil || [ gmailAddress isEqualToString:@""]) {
+        [self alertViewMethod:@"自分のgmail情報がありません"];
+        return;
+    }
+    NSString *pwString = [mydefault stringForKey:@"PASSWORD"];
+    if (pwString == nil || [ pwString isEqualToString:@""]){
+        [self alertViewMethod:@"パスワード情報がありません"];
+        return;
+    }
+    
     NSLog(@"Start Sending");
     SKPSMTPMessage *emailMessage = [[SKPSMTPMessage alloc] init];
-    emailMessage.fromEmail = @"yuzuru141@gmail.com"; //送信者メールアドレス（Gmailのアカウント）
-    emailMessage.toEmail = @"yuzuru141@hotmail.com";                //宛先メールアドレス
+    emailMessage.fromEmail = gmailAddress; //送信者メールアドレス（Gmailのアカウント）
+    emailMessage.toEmail = toMailAdress;                //宛先メールアドレス
     //emailMessage.ccEmail =@"cc@address";             //ccメールアドレス
     //emailMessage.bccEmail =@"bcc@address";         //bccメールアドレス
     emailMessage.requiresAuth = YES;
     emailMessage.relayHost = @"smtp.gmail.com";
-    emailMessage.login = @"yuzuru141@gmail.com";         //ユーザ名（Gmailのアカウント）
-    emailMessage.pass = @"Yu2uruA1R1e";                       //パスワード（Gmailのアカウント）
+    emailMessage.login = gmailAddress;         //ユーザ名（Gmailのアカウント）
+    emailMessage.pass = pwString;                       //パスワード（Gmailのアカウント）
     //2段階認証プロセスを利用する場合、アプリパスワードを使用する
-    emailMessage.subject =@"もうすぐ帰ります"; //件名に記載する内容
+    emailMessage.subject =subjectString; //件名に記載する内容
     emailMessage.wantsSecure = YES;
     emailMessage.delegate = self;
     NSString *messageBody = @""; //メール本文に記載する内容
@@ -718,7 +905,8 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
 - (void)runLoopMethod{
     NSTimer *mainTimer = [NSTimer timerWithTimeInterval:3600 target:self selector:@selector(runLoop) userInfo:nil repeats:YES];
 //    NSRunLoop *runLoop = [NSRunLoop currentRunLoop];
-    [[NSRunLoop currentRunLoop] addTimer: mainTimer forMode:NSDefaultRunLoopMode];
+//    [[NSRunLoop currentRunLoop] addTimer: mainTimer forMode:NSDefaultRunLoopMode];
+    [[NSRunLoop mainRunLoop] addTimer: mainTimer forMode:NSDefaultRunLoopMode];
 //    [runLoop addTimer:mainTimer forMode:NSRunLoopCommonModes];
 }
 
@@ -741,7 +929,7 @@ didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     
     
     //３分に一回GPSをゲットする
-    NSTimer *subTimer = [NSTimer timerWithTimeInterval:180 target:self selector:@selector(getGpsData:) userInfo:nil repeats:YES];
+    NSTimer *subTimer = [NSTimer timerWithTimeInterval:3 target:self selector:@selector(getGpsData:) userInfo:nil repeats:YES];
     //セットした時間内だけGPSを取得する
     if (selectTimeFrom <= (long)dateComp.hour){
         if((long)dateComp.hour < selectTimeTo){
